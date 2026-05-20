@@ -739,9 +739,9 @@ footer{
 
 <!-- ═══════════ STATS ═══════════ -->
 <div class="stats-band">
-  <div class="stat-item rv d1"><div class="stat-num" data-t="2">0</div><div class="stat-label">Torres de Alojamiento</div></div>
+  <div class="stat-item rv d1"><div class="stat-num" data-t="2" data-plus="false">0</div><div class="stat-label">Torres de Alojamiento</div></div>
   <div class="stat-item rv d2"><div class="stat-num" data-t="5">0</div><div class="stat-label">Salones de Eventos</div></div>
-  <div class="stat-item rv d3"><div class="stat-num" data-t="3">0</div><div class="stat-label">Piscinas</div></div>
+  <div class="stat-item rv d3"><div class="stat-num" data-t="2">0</div><div class="stat-label">Piscinas</div></div>
   <div class="stat-item rv d4"><div class="stat-num" data-t="5">0</div><div class="stat-label">Restaurantes</div></div>
   <div class="stat-item rv d5"><div class="stat-num" data-t="18">0</div><div class="stat-label">Amenidades Premium</div></div>
 </div>
@@ -1023,7 +1023,7 @@ const cobs=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){
     const t=+e.target.dataset.t;
     let c=0, step=t/(1600/16);
-    const ti=setInterval(()=>{ c=Math.min(c+step,t); e.target.textContent=Math.round(c)+'+'; if(c>=t)clearInterval(ti); },16);
+    const ti=setInterval(()=>{ c=Math.min(c+step,t); e.target.textContent=Math.round(c)+(e.target.dataset.plus!=='false'?'+':''); if(c>=t)clearInterval(ti); },16);
     cobs.unobserve(e.target);
   }
 }),{threshold:.5});
