@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0B1628">
+<title>Pase de Desayuno — San Miguel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1628;--navy-l:#122040;--navy-m:#0E1F3A;
+  --gold:#D2A62B;--gold-l:#F0C94A;
+  --white:#FFFFFF;--gray:#8A9BB0;--green:#22C55E;--red:#EF4444;
+}
+html,body{
+  min-height:100vh;background:var(--navy);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:0;
+}
+
+/* ── TOP BAR ── */
+.top-bar{
+  width:100%;background:var(--navy-l);
+  border-bottom:1px solid rgba(210,166,43,.2);
+  padding:14px 20px;display:flex;align-items:center;
+  justify-content:space-between;
+}
+.tb-hotel{display:flex;align-items:center;gap:10px}
+.tb-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--gold),#8B5E19);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;color:var(--navy)
+}
+.tb-name{font-weight:700;font-size:.95rem;color:var(--white)}
+.tb-sub{font-size:.65rem;color:var(--gray)}
+.tb-status{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--green)}
+.tb-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── PASS CARD ── */
+.pass-wrap{width:100%;max-width:420px;padding:20px 16px;flex:1}
+
+.pass-card{
+  background:linear-gradient(160deg,#0d1e38 0%,#162d50 50%,#0B1628 100%);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.7);
+  border:1px solid rgba(210,166,43,.25);
+  position:relative;
+}
+.pass-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-l),var(--gold));
+}
+
+/* Header */
+.pc-header{
+  padding:20px 22px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(210,166,43,.12);
+}
+.pc-hotel{display:flex;align-items:center;gap:10px}
+.pc-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold),#8B5E19);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1rem;color:var(--navy);flex-shrink:0
+}
+.pc-hotel-name{font-weight:700;font-size:.92rem}
+.pc-hotel-sub{font-size:.65rem;color:var(--gray);margin-top:2px}
+.pc-type{
+  font-size:.65rem;font-weight:700;color:var(--gold);
+  letter-spacing:.07em;text-transform:uppercase;
+  background:rgba(210,166,43,.12);padding:4px 11px;
+  border-radius:20px;border:1px solid rgba(210,166,43,.25);
+  white-space:nowrap;
+}
+
+/* Guest info */
+.pc-body{padding:20px 22px}
+.pc-name{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.pc-room{
+  font-size:.88rem;color:var(--gold-l);
+  font-weight:600;margin-top:5px;margin-bottom:18px;
+}
+.pc-fields{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:14px;margin-bottom:20px;
+}
+.pc-field label{
+  font-size:.58rem;font-weight:700;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.07em;display:block
+}
+.pc-field p{font-size:.84rem;font-weight:600;margin-top:4px}
+
+/* Plan badge */
+.plan-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border-radius:20px;font-size:.78rem;
+  font-weight:700;margin-bottom:20px;
+}
+.plan-bb{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.plan-ep{background:rgba(138,155,176,.1);color:var(--gray);border:1px solid rgba(138,155,176,.25)}
+
+/* Divider */
+.pc-divider{
+  display:flex;align-items:center;gap:0;
+  margin:0 -22px 20px;position:relative;
+}
+.pc-divider::before,.pc-divider::after{
+  content:'';flex:1;height:1px;
+  background:rgba(210,166,43,.15);
+}
+.pc-divider-circle{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--navy);border:1px solid rgba(210,166,43,.15);
+  flex-shrink:0;margin:0 -10px;z-index:1;
+}
+.pc-divider-left{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--navy);border:1px solid rgba(210,166,43,.15);
+  position:absolute;left:-7px;z-index:1;
+}
+.pc-divider-right{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--navy);border:1px solid rgba(210,166,43,.15);
+  position:absolute;right:-7px;z-index:1;
+}
+
+/* QR area */
+.pc-qr-area{
+  display:flex;align-items:center;gap:16px;margin-bottom:8px
+}
+.pc-qr-box{
+  background:white;border-radius:14px;padding:10px;
+  width:100px;height:100px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+}
+.pc-qr-info{flex:1}
+.pc-qr-label{font-size:.62rem;color:var(--gray);font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.pc-qr-code{
+  font-family:monospace;font-size:.72rem;color:var(--gold-l);
+  font-weight:700;word-break:break-all;line-height:1.5;
+}
+.pc-qr-note{font-size:.65rem;color:var(--gray);margin-top:8px;line-height:1.5}
+
+/* Footer */
+.pc-footer{
+  background:rgba(0,0,0,.25);padding:14px 22px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(210,166,43,.1);
+}
+.pc-footer-left{font-size:.68rem;color:var(--gray)}
+.pc-footer-right{font-size:.68rem;color:var(--gray)}
+.pc-footer strong{color:var(--gold-l)}
+
+/* ── ESTADO CONSUMIDO ── */
+.consumed-banner{
+  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);
+  border-radius:14px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+}
+.consumed-banner.available{
+  background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3);
+}
+.cb-icon{font-size:1.6rem}
+.cb-title{font-weight:700;font-size:.9rem}
+.cb-sub{font-size:.75rem;color:var(--gray);margin-top:2px}
+.cb-time{font-size:.72rem;margin-top:4px}
+
+/* ── ACCIONES ── */
+.actions{width:100%;max-width:420px;padding:0 16px 32px;display:flex;flex-direction:column;gap:10px}
+.btn-save{
+  width:100%;padding:14px;border-radius:14px;border:none;
+  font-size:.9rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;
+}
+.btn-apple{background:#000;color:#fff}
+.btn-apple:hover{background:#1a1a1a}
+.btn-google{background:#fff;color:#000;border:1px solid #e0e0e0}
+.btn-google:hover{background:#f5f5f5}
+.btn-share{
+  background:rgba(210,166,43,.1);color:var(--gold-l);
+  border:1px solid rgba(210,166,43,.25);
+}
+.btn-share:hover{background:rgba(210,166,43,.18)}
+
+/* ── HINT INSTALACIÓN ── */
+.install-hint{
+  width:100%;max-width:420px;padding:0 16px 20px;
+}
+.hint-card{
+  background:var(--navy-l);border:1px solid rgba(210,166,43,.15);
+  border-radius:14px;padding:14px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.hint-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.hint-text{font-size:.76rem;color:var(--gray);line-height:1.6}
+.hint-text strong{color:var(--white)}
+
+/* ── INVALID ── */
+.invalid-state{
+  text-align:center;padding:60px 20px;
+}
+.invalid-state .icon{font-size:3rem;margin-bottom:16px}
+.invalid-state h2{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.invalid-state p{font-size:.85rem;color:var(--gray)}
+
+/* ── LOADING ── */
+.loading{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:60vh;gap:16px;
+}
+.spinner{
+  width:40px;height:40px;border-radius:50%;
+  border:3px solid rgba(210,166,43,.2);
+  border-top-color:var(--gold);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="tb-hotel">
+    <div class="tb-icon">SM</div>
+    <div>
+      <div class="tb-name">San Miguel</div>
+      <div class="tb-sub">Hotel · Golf · Club</div>
+    </div>
+  </div>
+  <div class="tb-status">
+    <div class="tb-dot"></div>
+    Sistema activo
+  </div>
+</div>
+
+<!-- CONTENIDO DINÁMICO -->
+<div id="content" class="loading">
+  <div class="spinner"></div>
+  <div style="font-size:.85rem;color:var(--gray)">Cargando pase…</div>
+</div>
+
+<script>
+// ── Leer parámetros de la URL ────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const PASS = {
+  code:     params.get('code')    || '',
+  name:     params.get('name')    || '',
+  room:     params.get('room')    || '',
+  plan:     params.get('plan')    || 'BB',
+  checkin:  params.get('checkin') || '',
+  checkout: params.get('checkout')|| '',
+  company:  params.get('company') || '',
+};
+
+// Simular estado de consumo basado en localStorage
+const storageKey = `sm-pass-${PASS.code}`;
+let passState = JSON.parse(localStorage.getItem(storageKey) || 'null');
+
+function render(){
+  const content = document.getElementById('content');
+
+  if(!PASS.code || !PASS.name){
+    content.className = '';
+    content.innerHTML = `
+      <div class="invalid-state">
+        <div class="icon">❌</div>
+        <h2>Pase no válido</h2>
+        <p>Este enlace no contiene un pase válido.<br>Contacta a recepción del hotel.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const isConsumed = passState?.consumed;
+  const planClass  = PASS.plan === 'BB' ? 'plan-bb' : 'plan-ep';
+  const planLabel  = PASS.plan === 'BB' ? '🍳 Desayuno incluido' : '🛏️ Solo alojamiento';
+
+  content.className = '';
+  content.innerHTML = `
+    <!-- PASS CARD -->
+    <div class="pass-wrap">
+
+      ${isConsumed ? `
+        <div class="consumed-banner">
+          <div class="cb-icon">✅</div>
+          <div>
+            <div class="cb-title" style="color:var(--green)">Desayuno consumido hoy</div>
+            <div class="cb-sub">Servido en <strong>${passState.restaurant}</strong></div>
+            <div class="cb-time" style="color:var(--green)">🕐 ${passState.time}</div>
+          </div>
+        </div>
+      ` : `
+        <div class="consumed-banner available">
+          <div class="cb-icon">✅</div>
+          <div>
+            <div class="cb-title" style="color:var(--green)">Desayuno disponible hoy</div>
+            <div class="cb-sub">Presenta este pase en Mantuano o Gradas Bar</div>
+          </div>
+        </div>
+      `}
+
+      <div class="pass-card">
+        <!-- Header -->
+        <div class="pc-header">
+          <div class="pc-hotel">
+            <div class="pc-icon">SM</div>
+            <div>
+              <div class="pc-hotel-name">San Miguel Hotel</div>
+              <div class="pc-hotel-sub">Golf · Club · Maturín</div>
+            </div>
+          </div>
+          <div class="pc-type">🍳 Pase Desayuno</div>
+        </div>
+
+        <!-- Body -->
+        <div class="pc-body">
+          <div class="pc-name">${PASS.name}</div>
+          <div class="pc-room">Habitación ${PASS.room}${PASS.company ? ' · ' + PASS.company : ''}</div>
+
+          <div class="pc-fields">
+            <div class="pc-field">
+              <label>Check-in</label>
+              <p>${PASS.checkin}</p>
+            </div>
+            <div class="pc-field">
+              <label>Check-out</label>
+              <p>${PASS.checkout}</p>
+            </div>
+            <div class="pc-field">
+              <label>Plan</label>
+              <p>${PASS.plan}</p>
+            </div>
+          </div>
+
+          <span class="plan-badge ${planClass}">${planLabel}</span>
+
+          <!-- Divider tipo boarding pass -->
+          <div class="pc-divider">
+            <div class="pc-divider-left"></div>
+            <div class="pc-divider-right"></div>
+          </div>
+
+          <!-- QR -->
+          <div class="pc-qr-area">
+            <div class="pc-qr-box" id="qrBox"></div>
+            <div class="pc-qr-info">
+              <div class="pc-qr-label">Código de validación</div>
+              <div class="pc-qr-code">${PASS.code}</div>
+              <div class="pc-qr-note">
+                Válido <strong>una vez por día</strong><br>
+                No acumulable entre restaurantes
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pc-footer">
+          <div class="pc-footer-left">
+            <strong>Mantuano</strong> · Planta baja<br>
+            <strong>Gradas Bar</strong> · Área de piscina
+          </div>
+          <div class="pc-footer-right" style="text-align:right">
+            Horario<br>
+            <strong>6:30 – 10:30 am</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HINT -->
+    <div class="install-hint">
+      <div class="hint-card">
+        <div class="hint-icon">💡</div>
+        <div class="hint-text">
+          <strong>Guarda este pase en tu pantalla de inicio:</strong><br>
+          iPhone: toca <strong>Compartir →</strong> "Añadir a pantalla de inicio"<br>
+          Android: toca <strong>⋮ →</strong> "Añadir a pantalla de inicio"
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="actions">
+      <button class="btn-save btn-share" onclick="sharePass()">
+        📤 Compartir pase
+      </button>
+    </div>
+  `;
+
+  // Generar QR
+  if(typeof QRCode !== 'undefined'){
+    new QRCode(document.getElementById('qrBox'), {
+      text:         PASS.code,
+      width:        80,
+      height:       80,
+      colorDark:    '#000000',
+      colorLight:   '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+}
+
+async function sharePass(){
+  const url = window.location.href;
+  if(navigator.share){
+    try{
+      await navigator.share({
+        title: `Pase de Desayuno — ${PASS.name}`,
+        text:  `Hab. ${PASS.room} · Check-out: ${PASS.checkout}`,
+        url,
+      });
+    } catch(e){}
+  } else {
+    await navigator.clipboard.writeText(url);
+    alert('¡Enlace copiado al portapapeles!');
+  }
+}
+
+// Renderizar al cargar
+setTimeout(render, 400);
+</script>
+</body>
+</html>

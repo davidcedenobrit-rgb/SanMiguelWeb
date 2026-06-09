@@ -1456,10 +1456,10 @@ function renderCheckinStep3(){
         </div>
         <div class="wallet-pass-footer">
           <button class="wp-btn wp-btn-apple" id="btnAppleWallet" onclick="addToWallet('apple')">
-            🍎 Apple Wallet
+            📱 Abrir Pase Web
           </button>
           <button class="wp-btn wp-btn-google" id="btnGoogleWallet" onclick="addToWallet('google')">
-            🤖 Google Wallet
+            🔗 Copiar Enlace
           </button>
         </div>
       </div>
@@ -1482,65 +1482,41 @@ function renderCheckinStep3(){
   }, 100);
 }
 
-async function addToWallet(platform){
+function addToWallet(platform){
+  const g = newGuest;
+  if(!g || !g.qrCode){ toast('❌ No hay huésped activo', 'error'); return; }
+
+  // Construir URL del pase estático — /pass.html con query params
+  const base   = window.location.origin + '/pass.html';
+  const nombre = [g.name, g.apellido].filter(Boolean).join(' ');
+  const params = new URLSearchParams({
+    code:     g.qrCode,
+    name:     nombre,
+    room:     g.room     || '',
+    plan:     g.plan     || 'BB',
+    checkin:  formatDate(g.checkin),
+    checkout: formatDate(g.checkout),
+    company:  g.company  || '',
+  });
+  const passUrl = `${base}?${params.toString()}`;
+
   const btnId = platform === 'apple' ? 'btnAppleWallet' : 'btnGoogleWallet';
   const btn   = document.getElementById(btnId);
-  if(!btn) return;
 
-  // Estado loading
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '⏳ Generando pase...';
-  btn.disabled  = true;
-
-  try {
-    const response = await fetch('/api/wallet', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        guestName: newGuest.name,
-        room:      newGuest.room,
-        plan:      newGuest.plan,
-        checkin:   formatDate(newGuest.checkin),
-        checkout:  formatDate(newGuest.checkout),
-        company:   newGuest.company || '',
-        qrCode:    newGuest.qrCode,
-        guestId:   newGuest.id,
-      }),
+  if(platform === 'apple'){
+    // Abrir el pase en nueva pestaña — funciona en móvil como PWA
+    window.open(passUrl, '_blank');
+    if(btn){ btn.innerHTML = '✅ Pase abierto'; btn.style.background='#14532D'; btn.style.color='#fff'; }
+    toast(`📱 Pase web abierto — el huésped puede guardarlo en pantalla de inicio`, 'success');
+  } else {
+    // Copiar enlace al portapapeles
+    navigator.clipboard.writeText(passUrl).then(()=>{
+      if(btn){ btn.innerHTML = '✅ Enlace copiado'; btn.style.background='#14532D'; btn.style.color='#fff'; }
+      toast(`🔗 Enlace copiado — envíalo al huésped por WhatsApp o correo`, 'success');
+    }).catch(()=>{
+      window.open(passUrl, '_blank');
+      if(btn){ btn.innerHTML = '✅ Enlace abierto'; btn.style.background='#14532D'; btn.style.color='#fff'; }
     });
-
-    const data = await response.json();
-
-    if(!response.ok || !data.success){
-      throw new Error(data.error || 'Error desconocido');
-    }
-
-    const url = platform === 'apple' ? data.appleUrl : data.googleUrl;
-
-    if(url){
-      // Abrir la URL del pase — en iPhone abre directamente Wallet
-      window.open(url, '_blank');
-      btn.innerHTML = '✅ Pase enviado';
-      btn.style.background = platform === 'apple' ? '#14532D' : '#14532D';
-      btn.style.color = '#fff';
-      toast(`✅ Pase ${platform === 'apple' ? 'Apple' : 'Google'} Wallet generado`, 'success');
-    } else {
-      throw new Error('No se recibió URL del pase');
-    }
-
-  } catch(err){
-    console.error('Wallet error:', err);
-
-    // Si no hay API configurada (demo sin backend), simular igual
-    if(err.message?.includes('Failed to fetch') || err.message?.includes('404')){
-      btn.innerHTML = '✅ Pase listo (demo)';
-      btn.style.background = '#14532D';
-      btn.style.color = '#fff';
-      toast(`📱 Pase generado · Configura PASSKIT_API_KEY en Vercel para producción`, 'info');
-    } else {
-      btn.innerHTML = originalText;
-      btn.disabled  = false;
-      toast(`❌ Error: ${err.message}`, 'error');
-    }
   }
 }
 
