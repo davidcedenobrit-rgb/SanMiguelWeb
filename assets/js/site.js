@@ -145,6 +145,25 @@ if (document.getElementById('venues')) document.getElementById('venues').innerHT
 if (document.getElementById('sports')) document.getElementById('sports').innerHTML = SPORTS.map(venueCard).join('');
 if (document.getElementById('beauty')) document.getElementById('beauty').innerHTML = BEAUTY.map(venueCard).join('');
 
+/* ── concesiones (portada) ── */
+const concGrid = document.getElementById('concGrid');
+if (concGrid) {
+  const ALL = [];
+  [[FOOD, 'food', '/gastronomia/'], [SPORTS.filter(v => v.img !== 'gimnasio'), 'sport', '/bienestar/'], [BEAUTY, 'beauty', '/bienestar/']].forEach(([arr, g, href]) => arr.forEach(v => {
+    const dup = ALL.find(x => x.name === v.name);
+    if (dup) dup.g += ' ' + g; else ALL.push({...v, g, href});
+  }));
+  const tile = v => `<a class="conc" data-g="${v.g}" href="${v.href}">
+    <div class="conc-logo">${v.logo ? `<img src="/assets/logos/${v.logo}.png" alt="Logo ${esc(v.name)}" loading="lazy">` : `<span>${esc(v.name)}</span>`}</div>
+    <div class="conc-b"><small>${esc(v.type)}</small><h3>${esc(v.name)}</h3>${v.hours ? `<p>${svg('clock')}${esc(v.hours)}</p>` : ''}${v.perk ? `<em>${svg('gift')}${esc(v.perk)}</em>` : ''}</div>
+  </a>`;
+  concGrid.innerHTML = ALL.map(tile).join('');
+  document.querySelectorAll('[data-conc]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-conc]').forEach(x => x.setAttribute('aria-selected', x === b));
+    concGrid.querySelectorAll('.conc').forEach(c => { c.hidden = b.dataset.conc !== 'all' && !c.dataset.g.split(' ').includes(b.dataset.conc); });
+  }));
+}
+
 /* ── whatsapp buttons ── */
 document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(a.dataset.wa); a.target = '_blank'; a.rel = 'noopener'; });
 

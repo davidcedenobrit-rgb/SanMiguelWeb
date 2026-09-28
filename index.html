@@ -101,6 +101,15 @@
     </div>
   </div>
 </section>
+<section id="stats" aria-label="El hotel en cifras">
+  <div class="bg"></div>
+  <div class="wrap stats">
+    <div class="stat rv"><div class="stat-n" data-count="321">321</div><div class="stat-l">Habitaciones</div><div class="stat-d">204 en Torre VIP · 117 en Torre Express</div></div>
+    <div class="stat rv d1"><div class="stat-n" data-count="6">6</div><div class="stat-l">Salones</div><div class="stat-d">Conciertos, congresos, bodas y eventos corporativos</div></div>
+    <div class="stat rv d2"><div class="stat-n" data-count="9">9</div><div class="stat-l">Propuestas gastronómicas</div><div class="stat-d">Sabores y ambientes para cada momento</div></div>
+    <div class="stat rv d3"><div class="stat-n" data-count="8">8</div><div class="stat-l">Experiencias deportivas</div><div class="stat-d">Golf · Pádel · Beach Tennis · Tenis · Fútbol · Gimnasio · Power Bike · Entrenamiento</div></div>
+  </div>
+</section>
 <section id="proximos" hidden>
   <div class="wrap">
     <div class="sub-h dark rv">
@@ -110,13 +119,74 @@
     <div class="ev-grid" id="agendaTeaser"></div>
   </div>
 </section>
-<section id="stats" aria-label="El hotel en cifras">
-  <div class="bg"></div>
-  <div class="wrap stats">
-    <div class="stat rv"><div class="stat-n" data-count="321">321</div><div class="stat-l">Habitaciones</div><div class="stat-d">204 en Torre VIP · 117 en Torre Express</div></div>
-    <div class="stat rv d1"><div class="stat-n" data-count="6">6</div><div class="stat-l">Salones</div><div class="stat-d">Conciertos, congresos, bodas y eventos corporativos</div></div>
-    <div class="stat rv d2"><div class="stat-n" data-count="9">9</div><div class="stat-l">Propuestas gastronómicas</div><div class="stat-d">Sabores y ambientes para cada momento</div></div>
-    <div class="stat rv d3"><div class="stat-n" data-count="8">8</div><div class="stat-l">Experiencias deportivas</div><div class="stat-d">Golf · Pádel · Beach Tennis · Tenis · Fútbol · Gimnasio · Power Bike · Entrenamiento</div></div>
+<section id="habitaciones">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="over">Habitaciones</span>
+      <h2 class="h2">Dos torres,<br>una <em>misma calidez</em></h2>
+      <p class="lead">Elige la experiencia que mejor se adapta a tu viaje: la amplitud y exclusividad de la Torre VIP o la practicidad y confort de la Torre Express.</p>
+    </div>
+    <div class="rooms-bar rv">
+      <div class="tabs" role="tablist" aria-label="Torres">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="t-vip" id="tab-vip" data-tower="vip">Torre VIP</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-express" id="tab-express" data-tower="express">Torre Express</button>
+      </div>
+      <div class="rate">
+        <span>Tarifa</span>
+        <div class="tabs" role="tablist" aria-label="Tipo de tarifa">
+          <button class="tab" role="tab" aria-selected="true" data-rate="rack">Rack</button>
+          <button class="tab" role="tab" aria-selected="false" data-rate="corp">Corporativa</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tower on" id="t-vip" role="tabpanel" aria-labelledby="tab-vip">
+      <div class="tower-hero">
+        <img src="/assets/img/torre-vip.webp" alt="Torre VIP del Hotel San Miguel" loading="lazy">
+        <div class="tower-info">
+          <h3>Torre VIP</h3>
+          <div class="tower-count">204 habitaciones</div>
+          <div class="tower-mix">14 Sencillas · 82 Dobles · 53 Suites Junior · 8 Suites Premier · 16 Suites Senior</div>
+          <p>Pensada para quienes buscan una experiencia de hospedaje superior: amplitud, privacidad y confort en un entorno diseñado para el descanso y la productividad. Ideal para ejecutivos, artistas y delegaciones.</p>
+          <ul class="amen" data-amen></ul>
+        </div>
+      </div>
+      <div class="room-grid" data-rooms="vip"></div>
+    </div>
+
+    <div class="tower" id="t-express" role="tabpanel" aria-labelledby="tab-express">
+      <div class="tower-hero">
+        <img src="/assets/img/torre-express.webp" alt="Torre Express del Hotel San Miguel" loading="lazy">
+        <div class="tower-info">
+          <h3>Torre Express</h3>
+          <div class="tower-count">117 habitaciones</div>
+          <div class="tower-mix">69 Sencillas · 33 Dobles · 15 Suites Premier</div>
+          <p>Practicidad sin renunciar al confort: espacios funcionales ideales para viajes corporativos, delegaciones y estadías prolongadas, con todos los servicios para una experiencia productiva y placentera.</p>
+          <ul class="amen" data-amen></ul>
+        </div>
+      </div>
+      <div class="room-grid" data-rooms="express"></div>
+    </div>
+
+    <p class="rooms-note"><svg><use href="#i-info"/></svg><span id="roomsNote"></span></p>
+  </div>
+</section>
+<section id="concesiones">
+  <div class="wrap">
+    <div class="head center rv">
+      <span class="over">Dentro del complejo</span>
+      <h2 class="h2">Una ciudad dentro<br>del <em>hotel</em></h2>
+      <p class="lead">Restaurantes, bares, deportes, spa y boutiques abiertos a huéspedes y visitantes.</p>
+    </div>
+    <div class="conc-bar rv">
+      <div class="tabs" role="tablist" aria-label="Categorías de concesiones">
+        <button class="tab" role="tab" aria-selected="true" data-conc="all">Todos</button>
+        <button class="tab" role="tab" aria-selected="false" data-conc="food">Gastronomía</button>
+        <button class="tab" role="tab" aria-selected="false" data-conc="sport">Deportes</button>
+        <button class="tab" role="tab" aria-selected="false" data-conc="beauty">Spa y belleza</button>
+      </div>
+    </div>
+    <div class="conc-grid" id="concGrid"></div>
   </div>
 </section>
 <section id="explora" class="light">
