@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/demo_desayunos.html", "destination": "https://san-miguel-desayunos.vercel.app/", "permanent": true },
+    { "source": "/pass.html", "destination": "https://san-miguel-desayunos.vercel.app/pase/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -7,12 +11,7 @@
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
-        { "key": "Permissions-Policy", "value": "camera=(self), microphone=(), geolocation=(), payment=()" }
-      ]
-    },
-    {
-      "source": "/((?!demo_desayunos|pass|api/).*)",
-      "headers": [
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://gvwyaqsbjzbkslnrizys.supabase.co; connect-src 'self' https://gvwyaqsbjzbkslnrizys.supabase.co wss://gvwyaqsbjzbkslnrizys.supabase.co; frame-src https://www.google.com https://maps.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
