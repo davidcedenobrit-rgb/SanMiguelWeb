@@ -433,6 +433,14 @@ footer{background:#070D12;padding:70px 0 30px;border-top:1px solid var(--line)}
 .conc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .conc{background:var(--navy-d);border:1px solid rgba(210,166,43,.12);display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .3s}
 .conc[hidden]{display:none}
+.conc-link{display:flex;flex-direction:column;flex:1;color:inherit}
+.conc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 18px 14px;border-top:1px solid rgba(210,166,43,.1);margin-top:auto}
+.conc-foot a{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.72);transition:color .2s}
+.conc-foot svg{width:15px;height:15px;flex-shrink:0}
+.conc-foot .c-wa svg{color:#25D366}
+.conc-foot .c-ig svg{color:var(--gold)}
+.conc-foot a:hover{color:var(--gold-ll)}
+.venue-foot a svg{width:14px;height:14px}
 .conc:hover{transform:translateY(-4px);border-color:rgba(210,166,43,.45)}
 .conc-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#0E1A23}
 .conc-photo{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
