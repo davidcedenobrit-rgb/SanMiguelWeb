@@ -2,6 +2,9 @@ import { createHash } from 'node:crypto';
 import { z } from 'zod';
 
 const REQUIRED = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'IP_SALT'];
+for (const k of [...REQUIRED, 'RESEND_API_KEY', 'NOTIFY_EMAIL', 'NOTIFY_FROM']) {
+  if (process.env[k]) process.env[k] = process.env[k].replace(/^﻿/, '').trim();
+}
 const LIMIT = 5;
 const WINDOW_MIN = 15;
 
