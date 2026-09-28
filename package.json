@@ -1,0 +1,9 @@
+{
+  "name": "san-miguel-web",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel — Hotel San Miguel</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="adm">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 17l5-5-5-5M20 12H9M12 21H5a2 2 0 01-2-2V5a2 2 0 012-2h7"/></symbol>
+</svg>
+
+<!-- LOGIN -->
+<main id="login" class="adm-login" hidden>
+  <form id="loginForm" class="adm-card" novalidate>
+    <img src="/assets/logos/sanmiguel.png" alt="San Miguel Hotel, Golf & Club" class="adm-logo">
+    <h1>Panel de administración</h1>
+    <p class="adm-sub">Agenda de eventos y tarifas corporativas</p>
+    <label>Correo<input type="email" name="email" autocomplete="username" required maxlength="160"></label>
+    <label>Contraseña<input type="password" name="password" autocomplete="current-password" required minlength="8" maxlength="128"></label>
+    <button class="btn btn-gold" type="submit">Ingresar</button>
+    <p class="form-status" id="loginStatus" role="alert"></p>
+  </form>
+</main>
+
+<!-- APP -->
+<div id="app" hidden>
+  <header class="adm-top">
+    <img src="/assets/logos/sanmiguel.png" alt="San Miguel" class="adm-top-logo">
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-view="eventos">Eventos</button>
+      <button class="tab" role="tab" aria-selected="false" data-view="postulaciones">Postulaciones <span class="badge" id="newCount" hidden></span></button>
+    </nav>
+    <div class="adm-user"><span id="userEmail"></span><button class="btn btn-line" id="logout"><svg><use href="#i-out"/></svg>Salir</button></div>
+  </header>
+
+  <!-- EVENTOS -->
+  <section class="adm-view" id="v-eventos">
+    <div class="adm-bar">
+      <div><h2>Eventos</h2><p>Solo los eventos <b>publicados</b> y con fecha de hoy en adelante aparecen en la web.</p></div>
+      <button class="btn btn-gold" id="newEvent"><svg><use href="#i-plus"/></svg>Nuevo evento</button>
+    </div>
+    <div id="eventList" class="adm-list"></div>
+  </section>
+
+  <!-- POSTULACIONES -->
+  <section class="adm-view" id="v-postulaciones" hidden>
+    <div class="adm-bar">
+      <div><h2>Postulaciones corporativas</h2><p>Empresas que solicitaron tarifa corporativa desde la web.</p></div>
+      <div class="adm-actions">
+        <select id="estadoFilter" aria-label="Filtrar por estado">
+          <option value="">Todas</option><option value="nueva">Nuevas</option><option value="contactada">Contactadas</option>
+          <option value="aprobada">Aprobadas</option><option value="rechazada">Rechazadas</option>
+        </select>
+        <button class="btn btn-line" id="exportCsv">Exportar CSV</button>
+      </div>
+    </div>
+    <div id="postList" class="adm-list"></div>
+  </section>
+</div>
+
+<!-- EDITOR EVENTO -->
+<div class="adm-modal" id="editor" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+  <form class="adm-card adm-editor" id="eventForm" novalidate>
+    <div class="ed-head"><h2 id="edTitle">Nuevo evento</h2><button type="button" class="ed-x" aria-label="Cerrar">×</button></div>
+    <div class="ed-grid">
+      <label class="span2">Título *<input name="titulo" required minlength="3" maxlength="120" placeholder="Ej: Concierto de fin de año"></label>
+      <label>Categoría
+        <select name="categoria">
+          <option value="concierto">Concierto</option><option value="fiesta">Fiesta</option><option value="deportivo">Deportivo</option>
+          <option value="gastronomico">Gastronómico</option><option value="cultural">Cultural</option><option value="familiar">Familiar</option>
+          <option value="corporativo">Corporativo</option><option value="otro">Otro</option>
+        </select>
+      </label>
+      <label>Fecha *<input type="date" name="fecha" required></label>
+      <label>Hora<input name="hora" maxlength="40" placeholder="Ej: 8:00 p.m. (puertas 7:00 p.m.)"></label>
+      <label>Lugar
+        <input name="lugar" maxlength="120" list="lugares" value="Gran Salón de Eventos">
+        <datalist id="lugares"><option value="Gran Salón de Eventos"><option value="Salón Río Aragua"><option value="Área de piscina"><option value="Barrokos"><option value="El Chiringuito Bar"><option value="Saque Pádel Club"><option value="Campo de Golf"></datalist>
+      </label>
+      <label class="span2">Resumen (aparece en la tarjeta) <small data-count="resumen">0/280</small><textarea name="resumen" rows="2" maxlength="280"></textarea></label>
+      <label class="span2">Descripción completa <small data-count="descripcion">0/4000</small><textarea name="descripcion" rows="6" maxlength="4000" placeholder="Artistas, horario, qué incluye, condiciones, edad mínima…"></textarea></label>
+      <div class="span2 ed-flyer">
+        <div class="ed-flyer-prev" id="flyerPrev">Sin flyer</div>
+        <div>
+          <label>Flyer (JPG, PNG o WebP · máx. 5 MB)<input type="file" name="flyer" accept="image/jpeg,image/png,image/webp"></label>
+          <button type="button" class="btn btn-line" id="removeFlyer" hidden>Quitar flyer</button>
+        </div>
+      </div>
+      <div class="span2">
+        <div class="ed-sub">Entradas <button type="button" class="btn btn-line" id="addTier"><svg><use href="#i-plus"/></svg>Agregar tipo</button></div>
+        <div id="tiers" class="ed-tiers"></div>
+        <p class="ed-hint">Ej: General $20, VIP $45, Mesa para 6 $300. Precio 0 = gratis. Si no hay entradas, se mostrará "Consultar".</p>
+      </div>
+      <label>WhatsApp de ventas<input name="whatsapp" inputmode="numeric" pattern="[0-9]{10,15}" maxlength="15" value="584120842757"></label>
+      <div class="ed-switches">
+        <label class="sw"><input type="checkbox" name="publicado"> Publicado en la web</label>
+        <label class="sw"><input type="checkbox" name="destacado"> Destacado</label>
+        <label class="sw"><input type="checkbox" name="agotado"> Agotado</label>
+      </div>
+    </div>
+    <p class="form-status" id="edStatus" role="alert"></p>
+    <div class="ed-foot">
+      <button type="button" class="btn btn-line ed-del" id="deleteEvent" hidden>Eliminar</button>
+      <button type="button" class="btn btn-line ed-x">Cancelar</button>
+      <button type="submit" class="btn btn-gold">Guardar</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" integrity="sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug" crossorigin="anonymous"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>
