@@ -434,10 +434,13 @@ footer{background:#070D12;padding:70px 0 30px;border-top:1px solid var(--line)}
 .conc{background:var(--navy-d);border:1px solid rgba(210,166,43,.12);display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .3s}
 .conc[hidden]{display:none}
 .conc:hover{transform:translateY(-4px);border-color:rgba(210,166,43,.45)}
-.conc-logo{height:130px;display:flex;align-items:center;justify-content:center;padding:22px 26px;background:radial-gradient(circle at 50% 30%,#1C3242,#0E1A23);border-bottom:1px solid rgba(210,166,43,.1)}
-.conc-logo img{max-height:100%;max-width:100%;width:auto;object-fit:contain;filter:brightness(0) invert(1);opacity:.92;transition:opacity .3s}
-.conc:hover .conc-logo img{opacity:1}
-.conc-logo span{font-family:var(--display);font-size:22px;line-height:1.1;text-transform:uppercase;text-align:center;color:var(--gold-ll)}
+.conc-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#0E1A23}
+.conc-photo{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.conc:hover .conc-photo{transform:scale(1.07)}
+.conc-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,20,27,.15) 0%,rgba(11,20,27,.35) 45%,rgba(11,20,27,.88) 100%)}
+.conc-logo{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;height:54px;display:flex;align-items:flex-end}
+.conc-logo img{max-height:100%;max-width:70%;width:auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+.conc-logo span{font-family:var(--display);font-size:20px;line-height:1.05;text-transform:uppercase;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .conc-b{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
 .conc-b small{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
 .conc-b h3{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.15}
@@ -445,7 +448,7 @@ footer{background:#070D12;padding:70px 0 30px;border-top:1px solid var(--line)}
 .conc-b em{color:var(--gold-ll)}
 .conc-b svg{width:13px;height:13px;flex-shrink:0;margin-top:2px;color:var(--gold)}
 @media(max-width:1100px){.conc-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:760px){.conc-grid{grid-template-columns:repeat(2,1fr)}.conc-logo{height:100px;padding:16px}}
+@media(max-width:760px){.conc-grid{grid-template-columns:repeat(2,1fr)}.conc-logo{height:42px}}
 @media(max-width:420px){.conc-grid{grid-template-columns:1fr}}
 #proximos{background:var(--navy-dd)}
 

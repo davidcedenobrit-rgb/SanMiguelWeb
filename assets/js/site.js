@@ -154,7 +154,8 @@ if (concGrid) {
     if (dup) dup.g += ' ' + g; else ALL.push({...v, g, href});
   }));
   const tile = v => `<a class="conc" data-g="${v.g}" href="${v.href}">
-    <div class="conc-logo">${v.logo ? `<img src="/assets/logos/${v.logo}.png" alt="Logo ${esc(v.name)}" loading="lazy">` : `<span>${esc(v.name)}</span>`}</div>
+    <div class="conc-media"><img class="conc-photo" src="/assets/img/${v.img}.webp" alt="${esc(v.name)}" loading="lazy"${v.pos ? ` style="object-position:${v.pos}"` : ''}>
+      <div class="conc-logo">${v.logo ? `<img src="/assets/logos/${v.logo}.png" alt="Logo ${esc(v.name)}" loading="lazy">` : `<span>${esc(v.name)}</span>`}</div></div>
     <div class="conc-b"><small>${esc(v.type)}</small><h3>${esc(v.name)}</h3>${v.hours ? `<p>${svg('clock')}${esc(v.hours)}</p>` : ''}${v.perk ? `<em>${svg('gift')}${esc(v.perk)}</em>` : ''}</div>
   </a>`;
   concGrid.innerHTML = ALL.map(tile).join('');
