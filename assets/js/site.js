@@ -118,7 +118,7 @@ function venueCard(v){
   </article>`;
 }
 const FOOD = [
-  {name:'Mantuano', type:'Restaurante mediterráneo-tropical', img:'r-mantuano', logo:'mantuano', desc:'Una propuesta fresca que combina sabores mediterráneos con el carácter tropical del destino.', hours:'Todos los días · 7:00 a.m. – 10:00 p.m.', loc:'Lobby Torre Express', tel:'0414-0841304'},
+  {name:'Mantuano', type:'Restaurante mediterráneo-tropical', img:'r-mantuano', logo:'mantuano', ig:'mantuanorestaurant', desc:'Una propuesta fresca que combina sabores mediterráneos con el carácter tropical del destino.', hours:'Todos los días · 7:00 a.m. – 10:00 p.m.', loc:'Lobby Torre Express', tel:'0414-0841304'},
   {name:'Gradas Sport Bar', type:'Gastrobar', img:'r-gradas', logo:'gradas', desc:'Un espacio casual para disfrutar buena comida, bebidas y ambiente deportivo. Desayunos, almuerzos, snacks y cenas.', hours:'Lun – Dom · 7:00 a.m. – 11:00 p.m.', loc:'Lobby Club · Ext. huéspedes 1036', ig:'gradas_bar', tel:'0412-1828232'},
   {name:'Saque Pádel Club', type:'Club de pádel · Restaurante', img:'r-saque', logo:'saque', desc:'Una experiencia que combina deporte, gastronomía y un ambiente social exclusivo, con restaurante y bar.', hours:'Dom – Jue 5:00 p.m. – 12:00 a.m. · Vie – Sáb 5:00 p.m. hasta el cierre', loc:'Junto a las canchas de tenis', ig:'saquepadelclub', tel:'0414-1925060'},
   {name:'El Chiringuito Bar', type:'Restaurante · Bar', img:'r-chiringuito', logo:'chiringuito', desc:'Ambiente relajado, buena música y sabores mar y tierra, hamburguesas, tapas y coctelería junto a la piscina.', hours:'Mié, Jue y Dom 11:00 a.m. – 11:00 p.m. · Vie – Sáb 11:00 a.m. – 3:00 a.m.', loc:'Junto a la piscina', ig:'elchiringuito.bar', tel:'0424-9092734'},
