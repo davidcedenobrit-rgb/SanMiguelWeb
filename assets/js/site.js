@@ -173,8 +173,30 @@ document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa(a.dataset.wa);
 
 /* ── nav ── */
 const nav = document.getElementById('nav'), burger = document.getElementById('burger');
-const onScroll = () => nav.classList.toggle('solid', scrollY > 60);
-addEventListener('scroll', onScroll, {passive:true}); onScroll();
+const calm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const plxBg = [...document.querySelectorAll('.hero-bg, .page-hero .bg, .ca-hero .bg')];
+const plxIn = [...document.querySelectorAll('.feat-media img, #stats .bg')];
+let lastY = scrollY, ticking = false;
+const frame = () => {
+  ticking = false;
+  const y = scrollY, vh = innerHeight;
+  nav.classList.toggle('solid', y > 60);
+  if (!document.body.classList.contains('menu-open')) {
+    if (y > lastY + 4 && y > 320) nav.classList.add('hide');
+    else if (y < lastY - 4 || y <= 320) nav.classList.remove('hide');
+  }
+  lastY = y;
+  if (calm) return;
+  plxBg.forEach(el => { if (y < vh * 1.3) el.style.translate = `0 ${(y * .28).toFixed(1)}px`; });
+  plxIn.forEach(el => {
+    const r = el.parentElement.getBoundingClientRect();
+    if (r.bottom < -80 || r.top > vh + 80) return;
+    const k = ((r.top + r.height / 2) - vh / 2) / vh;
+    el.style.translate = `0 ${(k * -r.height * .14).toFixed(1)}px`;
+  });
+};
+const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll, {passive:true}); frame();
 burger.addEventListener('click', () => {
   const open = document.body.classList.toggle('menu-open');
   burger.setAttribute('aria-expanded', open);
@@ -187,16 +209,24 @@ const page = document.body.dataset.page;
 document.querySelectorAll('#navLinks a').forEach(l => l.classList.toggle('on', l.dataset.page === page));
 
 /* ── reveal + counters ── */
+const countUp = (n) => {
+  const end = +n.dataset.count, t0 = performance.now();
+  cancelAnimationFrame(n._raf);
+  const step = t => { const p = Math.min(1, (t - t0) / 1600); n.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if (p < 1) n._raf = requestAnimationFrame(step); };
+  n._raf = requestAnimationFrame(step);
+};
 const rvObs = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
-  e.target.classList.add('in'); rvObs.unobserve(e.target);
-  const n = e.target.querySelector('[data-count]');
-  if (n && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
-    const end = +n.dataset.count, t0 = performance.now();
-    const step = t => { const p = Math.min(1, (t - t0) / 1600); n.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
+  const el = e.target;
+  if (e.isIntersecting && e.intersectionRatio >= .1) {
+    if (el.classList.contains('in')) return;
+    el.classList.add('in');
+    const n = el.querySelector('[data-count]');
+    if (n && !calm) countUp(n);
+  } else if (!e.isIntersecting) {
+    el.classList.remove('in');
+    el.classList.toggle('up', e.boundingClientRect.top < 0);
   }
-}), {threshold:.12});
+}), {threshold:[0, .1]});
 document.querySelectorAll('.rv').forEach(el => rvObs.observe(el));
 
 /* ── lightbox ── */

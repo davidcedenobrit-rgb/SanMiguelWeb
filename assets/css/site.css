@@ -337,8 +337,18 @@ footer{background:#070D12;padding:70px 0 30px;border-top:1px solid var(--line)}
 /* ── reveal ── */
 .rv{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
 .rv.in{opacity:1;transform:none}
+.rv.up{transform:translateY(-28px)}
+.rv.up.in{transform:none}
+#nav{transition:background .4s,box-shadow .4s,padding .4s,transform .45s var(--ease)}
+#nav.hide{transform:translateY(-100%)}
+.feat-media,.ca-media.rv,.tower-hero>img,.gs-media{clip-path:inset(0 0 0 0);transition:clip-path 1.2s var(--ease)}
+.rv:not(.in) .feat-media,.ca-media.rv:not(.in){clip-path:inset(0 100% 0 0)}
+.feat.rev.rv:not(.in) .feat-media,.ca-block.rev .ca-media.rv:not(.in){clip-path:inset(0 0 0 100%)}
+.ca-media.rv{opacity:1}
+.feat-media img{height:118%;position:relative;top:-9%;will-change:translate}
+[data-plx]{will-change:translate}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.rv.up{opacity:1;transform:none}.feat-media,.ca-media.rv{clip-path:none!important}.feat-media img{height:100%;top:0}#nav.hide{transform:none}html{scroll-behavior:auto}}
 
 /* ── responsive ── */
 @media(max-width:1180px){
