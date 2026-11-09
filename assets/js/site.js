@@ -38,7 +38,7 @@ function renderRooms(){
     const t = grid.dataset.rooms, pre = t === 'vip' ? 'vip' : 'exp';
     grid.innerHTML = ROOMS[t].list.map(r => {
       const imgs = [1,2,3].map(n => `/assets/img/${pre}-${r.id}-${n}.webp`);
-      const msg = `Hola, quiero reservar una ${r.name} en la ${towerName[t]} del Hotel San Miguel (tarifa ${RATE === 'rack' ? 'Rack' : 'Corporativa'}).`;
+      const msg = `Hola, quiero reservar una ${r.name} en la ${towerName[t]} del Hotel San Miguel.${RATE === 'rack' ? '' : ' Mi empresa tiene convenio con el hotel (tarifa empresas).'}`;
       return `<article class="room">
         <div class="room-media"><img src="${imgs[0]}" alt="${esc(r.name)} — ${towerName[t]}" loading="lazy">
           <div class="room-thumbs">${imgs.map((s,k) => `<button class="${k?'':'on'}" data-src="${s}" aria-label="Ver foto ${k+1}"><img src="${s}" alt="" loading="lazy"></button>`).join('')}</div>
@@ -48,15 +48,23 @@ function renderRooms(){
           <p class="room-cfg">${esc(r.cfg)}</p>
           <div class="room-cap">${svg('user')}Capacidad: ${esc(r.cap)}</div>
           <div class="room-foot">
-            <div class="price"><small>Desde</small><b>${money(r[RATE])}</b> <span>/ noche</span></div>
+            <div class="price"><small>${RATE === 'rack' ? 'Por noche' : 'Con convenio'}</small><b>${money(r[RATE])}</b> <span>/ noche</span></div>
             <a class="btn btn-gold" href="${wa(msg)}" target="_blank" rel="noopener">Reservar</a>
           </div>
+          <ul class="price-notes">
+            <li>Desayuno no incluido: +$15 por persona</li>
+            <li>Persona adicional: +$${ROOMS[t].extra} por noche</li>
+          </ul>
         </div>
       </article>`;
     }).join('');
   });
   const t = document.querySelector('.tower.on').id === 't-vip' ? 'vip' : 'express';
-  document.getElementById('roomsNote').textContent = `Tarifas ${RATE === 'rack' ? 'Rack' : 'Corporativas'} en USD por noche (${towerName[t]}). Persona adicional: $${ROOMS[t].extra}. Las tarifas no incluyen desayuno; puedes agregarlo por $15 por persona. Sujetas a disponibilidad.`;
+  document.getElementById('roomsNote').textContent = 'Precios en dólares (USD) por habitación por noche, sujetos a disponibilidad.';
+  const rh = document.getElementById('rateHelp');
+  if (rh) rh.innerHTML = RATE === 'rack'
+    ? '<b>Público general:</b> la tarifa para cualquier huésped que reserva directamente con el hotel.'
+    : '<b>Empresas con convenio:</b> tarifa preferencial para empresas con un acuerdo aprobado por el hotel. Si tu empresa aún no lo tiene, <a href="/corporativo/">solicítalo aquí</a>.';
 }
 renderRooms();
 
