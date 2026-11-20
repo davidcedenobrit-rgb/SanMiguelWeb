@@ -67,7 +67,7 @@ section{padding:var(--pad-y) 0;position:relative}
 
 /* ── hero ── */
 #hero{min-height:100svh;padding:0;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('/assets/img/hero.webp') center 55%/cover no-repeat;transform:scale(1.08);animation:heroZoom 14s var(--ease) forwards}
+.hero-bg{position:absolute;inset:0;background:url('/assets/img/hero.webp') center 60%/cover no-repeat;transform:scale(1.08);animation:heroZoom 14s var(--ease) forwards}
 @keyframes heroZoom{to{transform:scale(1)}}
 .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,20,27,.7) 0%,rgba(11,20,27,.25) 55%,rgba(11,20,27,0) 100%),linear-gradient(180deg,rgba(11,20,27,.55) 0%,rgba(11,20,27,.15) 35%,rgba(11,20,27,.55) 65%,rgba(11,20,27,.96) 100%)}
 .hero-in{position:relative;width:100%;padding-bottom:clamp(40px,7vh,80px)}
